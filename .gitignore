@@ -1,0 +1,10 @@
+#db
+pgdata
+
+# misc
+.idea
+.DS_Store
+*.pem
+
+# env files (can opt-in for committing if needed)
+.env*
