@@ -2,11 +2,14 @@ services:
 
   db:
     image: postgres:16.0
+    container_name: "database"
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
       PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - knowledgebase-network
     ports:
       - "5430:5432"
     volumes:
@@ -27,6 +30,35 @@ services:
     restart: unless-stopped
     tty: true
     stdin_open: true
+
+  frontend:
+    container_name: "frontend"
+    build:
+      context: ./knowledgebase-front
+      dockerfile: Dockerfile
+    networks:
+      - knowledgebase-network
+    ports:
+      - "3000:3000"
+
+  backend:
+    container_name: "backend"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    build:
+      context: ./knowledgebase-back
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - knowledgebase-network
+    ports:
+      - "4200:4200"
+
+networks:
+  knowledgebase-network:
+    name: knowledgebase-network
 
 volumes:
   pgdata:
