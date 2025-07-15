@@ -36,6 +36,8 @@ services:
     build:
       context: ./knowledgebase-front
       dockerfile: Dockerfile
+      args:
+        BE_URL: "http://backend:4000"
     networks:
       - knowledgebase-network
     ports:
@@ -43,18 +45,18 @@ services:
 
   backend:
     container_name: "backend"
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
     build:
       context: ./knowledgebase-back
       dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     depends_on:
       db:
         condition: service_healthy
     networks:
       - knowledgebase-network
     ports:
-      - "4200:4200"
+      - "4200:4000"
 
 networks:
   knowledgebase-network:
