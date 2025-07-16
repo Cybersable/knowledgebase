@@ -7,7 +7,9 @@
 ```sh
     docker compose up -d --build
     
-    docker exec backend yarn db:migrate
+    docker exec backend npx prisma migrate deploy
+    
+    docker exec -w /prisma/seed backend node index.js
 ```
 
 ---
