@@ -1,0 +1,6 @@
+[submodule "knowledgebase-back"]
+	path = knowledgebase-back
+	url = git@github.com:Cybersable/knowledgebase-back.git
+[submodule "knowledgebase-front"]
+	path = knowledgebase-front
+	url = git@github.com:Cybersable/knowledgebase-front.git
